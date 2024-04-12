@@ -1,0 +1,10 @@
+#area{
+    width: 10em;
+    height: 10em;
+    background-color: grey;
+    border: 1px solid black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
