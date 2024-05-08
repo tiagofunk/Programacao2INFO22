@@ -1,0 +1,18 @@
+#gameBoard{
+    display: flex;
+}
+
+.card {
+    width: 100px;
+    height: 150px;
+    background-color: #f0f0f0;
+    margin: 5px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    /* Adicionando esta linha para definir o tamanho da imagem de fundo */
+    background-size: cover;
+  }
