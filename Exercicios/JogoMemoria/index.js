@@ -1,4 +1,4 @@
-const numeroPares = 5; // Number of pairs
+const numeroPares = 5;
 const baralho = [];
 let pontuacao = 0;
 let cartasViradas = [];
