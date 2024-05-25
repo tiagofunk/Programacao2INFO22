@@ -45,7 +45,8 @@ app.get("/pessoas/:id", function(req,res){
 app.post("/pessoas/", function( req, res ){
   const novaPessoa = {
     id: pessoas.length + 1,
-    nome: req.body.nome
+    nome: req.body.nome,
+    idade: req.body.idade
   };
   pessoas.push( novaPessoa );
   res.send( novaPessoa );

@@ -5,7 +5,7 @@
 - Abra o terminal no menu Terminal -> Novo Terminal
 - Digite o comando para iniciar o projeto e vá apertando ENTER para confirmar as configurações do projeto:
 
-		npm init
+		npm init -y
 - Para instalar a extensão que reinicia a aplicação automaticamente:
         
     	npm install --save-dev nodemon
