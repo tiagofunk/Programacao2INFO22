@@ -22,17 +22,17 @@ app.listen( PORTA, function(){
     console.log("Servidor iniciados na porta "+PORTA);
 })
 
-app.get("/professores/",async function(req, res) {
+app.get("/professor/",async function(req, res) {
     const resultado = await professor.professor.findAll()
     res.send(resultado);
 })
 
-app.get("/materias/",async function(req, res) {
+app.get("/materia/",async function(req, res) {
     const resultado = await materia.materia.findAll()
     res.send(resultado);
 })
 
-app.get("/professores/:id",async function(req, res) {
+app.get("/professor/:id",async function(req, res) {
     const professorSelecionado = await professor.professor.findByPk(req.params.id, 
         { include: { model: materia.materia } } 
     )
@@ -43,7 +43,7 @@ app.get("/professores/:id",async function(req, res) {
     } 
 })
 
-app.get("/materias/:id",async function(req, res) {
+app.get("/materia/:id",async function(req, res) {
     const materiaSelecionada = await materia.materia.findByPk(req.params.id,
         { include: {model: professor.professor } }
     )
@@ -54,14 +54,14 @@ app.get("/materias/:id",async function(req, res) {
     } 
 })
 
-app.post("/professores/",async function(req,res){
+app.post("/professor/",async function(req,res){
     const resultado = await professor.professor.create({
         nome:req.body.nome
     })
     res.send(resultado)
 })
 
-app.post("/materias/",async function(req,res){
+app.post("/materia/",async function(req,res){
     const resultado = await materia.materia.create({
         nome:req.body.nome,
         professorId:req.body.professorId
@@ -69,7 +69,7 @@ app.post("/materias/",async function(req,res){
     res.send(resultado)
 })
 
-app.put("/professores/:id",async function(req,res){
+app.put("/professor/:id",async function(req,res){
     const resultado = await professor.professor.update({
         nome:req.body.nome
     },{
@@ -82,8 +82,33 @@ app.put("/professores/:id",async function(req,res){
     }
 })
 
-app.delete("/professores/:id",async function(req,res){
+app.put("/materia/",async function(req,res){
+    const resultado = await materia.materia.update({
+        nome:req.body.nome,
+        professorId:req.body.professorId
+    })
+    if( resultado == 0){
+        res.status(404).send({})
+    }else{
+        res.send( await materia.materia.findByPk(req.params.id))
+    }
+})
+
+app.delete("/professor/:id",async function(req,res){
     const resultado = await professor.professor.destroy({
+        where:{
+            id:req.params.id
+        }
+    })
+    if( resultado == 0 ){
+        res.status(404).send({})
+    }else{
+        res.status(204).send({})
+    }
+})
+
+app.delete("/materia/:id",async function(req,res){
+    const resultado = await materia.materia.destroy({
         where:{
             id:req.params.id
         }
