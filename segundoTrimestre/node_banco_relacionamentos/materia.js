@@ -13,6 +13,10 @@ var materia = banco.conexao.define(
         nome:{
             type:sequelize.STRING,
             allowNull:false
+        },
+        cargaHoraria:{
+            type:sequelize.INTEGER.UNSIGNED,
+            allowNull:false
         }
     },
     { timestamps: false }

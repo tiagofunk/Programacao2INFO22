@@ -64,6 +64,7 @@ app.post("/professor/",async function(req,res){
 app.post("/materia/",async function(req,res){
     const resultado = await materia.materia.create({
         nome:req.body.nome,
+        cargaHoraria:req.body.cargaHoraria,
         professorId:req.body.professorId
     })
     res.send(resultado)
@@ -71,7 +72,8 @@ app.post("/materia/",async function(req,res){
 
 app.put("/professor/:id",async function(req,res){
     const resultado = await professor.professor.update({
-        nome:req.body.nome
+        nome:req.body.nome,
+        cargaHoraria:req.body.cargaHoraria
     },{
         where:{id: req.params.id}
     })

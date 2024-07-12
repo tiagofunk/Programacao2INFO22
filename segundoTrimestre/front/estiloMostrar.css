@@ -1,0 +1,58 @@
+#container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 150%;
+}
+
+#tabela{
+    width: 100%;
+}
+
+.linhaTabela{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 3%;
+    border-bottom: .1rem solid gray;
+}
+
+.item{
+    width: 20%;
+    text-align: center;
+}
+
+.icone{
+    width: 2rem;
+    height: 2rem;
+}
+
+.inicial {
+    width: 5%;
+    text-align: right;
+}
+
+.visualizar, .editar, .excluir{
+    width: 8%;
+    text-align: center;
+}
+
+#areaBotao{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#botaoAdicionar{
+    width: 5rem;
+    height: 5rem;
+    margin-top: 2rem;
+    border-radius: 50%;
+    border: none;
+    background-color: steelblue;
+    font-size: xx-large;
+}

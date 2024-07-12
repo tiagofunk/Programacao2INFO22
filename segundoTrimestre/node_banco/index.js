@@ -62,7 +62,7 @@ app.put("/pessoas/:id",async function(req,res){
     },{
         where:{id: req.params.id}
     })
-    if( resultado == 0){
+    if( resultado == 0 ){
         res.status(404).send({})
     }else{
         res.send( await pessoa.pessoa.findByPk(req.params.id))
