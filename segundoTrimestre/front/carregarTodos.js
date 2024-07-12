@@ -21,6 +21,7 @@ function carregarTabela(){
         const obj = listaObjetos[i];
         tabela.innerHTML += criarLinhaTabela(obj)
     }
+    cadastrarEventosVisualizar();
     // cadastrarEventosLapis()
     // cadastrarEventosLixeira()
 }
@@ -43,7 +44,7 @@ function criarLinhaTabela(obj){
     return `<div class="linhaTabela">
                 <p class="item inicial">${obj.id}</p>
                 ${preencherLinhaTabela(obj)}
-                <p class="item visualizar">
+                <p class="item visualizar" data-value="${obj.id}">
                     <img class="icone" src="${ICONE_VISUALIZAR}" alt="icone lápis">
                 </p>
                 <p class="item editar">
@@ -53,6 +54,24 @@ function criarLinhaTabela(obj){
                     <img class="icone" src="${ICONE_EXCLUIR}" alt="icone lixeira">
                 </p>
             </div>`;
+}
+
+function cadastrarEventosVisualizar(){
+    var elementos = document.getElementsByClassName("visualizar")
+    elementos = Array.from(elementos)
+    elementos.forEach( elemento => {
+        console.log(elemento.value);
+    })
+    elementos.forEach(elemento => {
+        elemento.addEventListener("click",function(event){
+            var elementoClicado = event.target
+            if (elementoClicado.tagName === 'IMG') {
+                elementoClicado = elementoClicado.parentElement
+            }
+            var id = elementoClicado.dataset.value
+            window.location.href = `${URL_VISUALIZAR}?id=${id}`
+        })
+    });
 }
 
 var botaoAdicionar = document.getElementById("botaoAdicionar")

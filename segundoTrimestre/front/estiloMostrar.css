@@ -56,3 +56,11 @@
     background-color: steelblue;
     font-size: xx-large;
 }
+
+#caixaProfessor, #caixaMateria{
+    width: 80%;
+    background-color: rgb(251, 251, 251);
+    box-shadow: 1px 1px 1px 1px gray;
+    padding: 15px;
+    border-radius: 20px;
+}
