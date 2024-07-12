@@ -33,8 +33,8 @@ app.get("/materia/",async function(req, res) {
 })
 
 app.get("/professor/:id",async function(req, res) {
-    const professorSelecionado = await professor.professor.findByPk(req.params.id, 
-        { include: { model: materia.materia } } 
+    const professorSelecionado = await professor.professor.findByPk(
+        req.params.id, { include: { model: materia.materia } } 
     )
     if( professorSelecionado == null ){
         res.status(404).send({})
@@ -44,8 +44,8 @@ app.get("/professor/:id",async function(req, res) {
 })
 
 app.get("/materia/:id",async function(req, res) {
-    const materiaSelecionada = await materia.materia.findByPk(req.params.id,
-        { include: {model: professor.professor } }
+    const materiaSelecionada = await materia.materia.findByPk(
+        req.params.id, { include: {model: professor.professor } }
     )
     if( materiaSelecionada == null ){
         res.status(404).send({})
@@ -56,7 +56,9 @@ app.get("/materia/:id",async function(req, res) {
 
 app.post("/professor/",async function(req,res){
     const resultado = await professor.professor.create({
-        nome:req.body.nome
+        nome:req.body.nome,
+        titulacao:req.body.titulacao,
+        regimeTrabalho: req.body.regimeTrabalho
     })
     res.send(resultado)
 })
@@ -73,7 +75,8 @@ app.post("/materia/",async function(req,res){
 app.put("/professor/:id",async function(req,res){
     const resultado = await professor.professor.update({
         nome:req.body.nome,
-        cargaHoraria:req.body.cargaHoraria
+        titulacao:req.body.titulacao,
+        regimeTrabalho: req.body.regimeTrabalho
     },{
         where:{id: req.params.id}
     })

@@ -13,6 +13,14 @@ var professor = banco.conexao.define(
         nome:{
             type:sequelize.STRING,
             allowNull:false
+        },
+        titulacao:{
+            type:sequelize.STRING,
+            allowNull:false
+        },
+        regimeTrabalho:{
+            type:sequelize.INTEGER.UNSIGNED,
+            allowNull:false
         }
     },
     { timestamps: false }
