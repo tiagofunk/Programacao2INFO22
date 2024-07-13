@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Professor</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div id="container">
+        <h1 id="titulo">Cadastrar professor</h1>
+        <form id="cadastro">
+            <p class="separador">
+                <label for="campoNome">Nome:</label>
+                <input id="campoNome" class="elementoFormulario campo" type="text" name="nome">
+            </p>
+
+            <p class="separador">
+                <label for="titulacao">Titulação:</label>
+                <select class="elementoFormulario campo" id="titulacao" name="titulacao">
+                    <option value="Graduação">Graduação</option>
+                    <option value="Especialização">Especialização</option>
+                    <option value="Mestrado">Mestrado</option>
+                    <option value="Doutorado">Doutorado</option>
+                </select>
+            </p>
+
+            <p class="separador">
+                <label for="regimeTrabalho">Regime Trabalho:</label>
+                <select class="elementoFormulario campo" id="regimeTrabalho" name="regimeTrabalho">
+                    <option value="20">20 horas</option>
+                    <option value="40">40 horas</option>
+                </select>
+            </p>
+            
+            <input type="submit" id="botaoAdicionar" class="elementoFormulario" value="Adicionar">
+        </form>
+    </div>
+    
+    <script src="adicionarProfessor.js"></script>
+</body>
+</html>

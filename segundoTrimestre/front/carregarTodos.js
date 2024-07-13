@@ -76,7 +76,7 @@ function cadastrarEventosVisualizar(){
 
 var botaoAdicionar = document.getElementById("botaoAdicionar")
 botaoAdicionar.addEventListener("click",function(){
-    window.location.href = 'adicionar.html';
+    window.location.href = URL_ADICIONAR;
 })
 
 function atualizarTela(id){

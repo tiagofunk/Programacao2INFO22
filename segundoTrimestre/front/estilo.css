@@ -64,3 +64,43 @@
     padding: 15px;
     border-radius: 20px;
 }
+
+#cadastro{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.separador{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5%;
+}
+
+.separador > label{
+    width: 25%;
+}
+.campo{
+    background-color: white;
+    border: none;
+    border-bottom: .1rem solid gray;
+    width: 50%;
+    text-align: center;
+}
+
+.elementoFormulario{
+    outline: none;
+    font-size: x-large;
+}
+
+#botaoAdicionar{
+    border-radius: 5px;
+    width: 15%;
+}
