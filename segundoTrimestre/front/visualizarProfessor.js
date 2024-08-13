@@ -18,7 +18,12 @@ function mostrarProfessor( professor ){
     document.getElementById("regimeTrabalho").innerText += `Regime Trabalho: ${professor.regimeTrabalho} horas`
 
     var caixaMaterias = document.getElementById("caixaMateria")
-    professor.materia.forEach(materia => {
-        caixaMaterias.innerHTML += `<p>${materia.nome} - ${materia.cargaHoraria} horas</p>`
-    });
+    console.log(professor.materia);
+    if( professor.materia.length == 0 ){
+        caixaMaterias.innerHTML = "<p>Nenhuma matéria encontrada!</p>"
+    }else{
+        professor.materia.forEach(materia => {
+            caixaMaterias.innerHTML += `<p>${materia.nome} - ${materia.cargaHoraria} horas</p>`
+        });
+    }
 }

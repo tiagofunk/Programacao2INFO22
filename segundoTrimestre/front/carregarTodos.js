@@ -21,8 +21,8 @@ function carregarTabela(){
         const obj = listaObjetos[i];
         tabela.innerHTML += criarLinhaTabela(obj)
     }
-    cadastrarEventosVisualizar();
-    // cadastrarEventosLapis()
+    cadastrarEventosVisualizar()
+    cadastrarEventosAtualizar()
     // cadastrarEventosLixeira()
 }
 
@@ -47,7 +47,7 @@ function criarLinhaTabela(obj){
                 <p class="item visualizar" data-value="${obj.id}">
                     <img class="icone" src="${ICONE_VISUALIZAR}" alt="icone lápis">
                 </p>
-                <p class="item editar">
+                <p class="item editar" data-value="${obj.id}">
                     <img class="icone" src="${ICONE_ALTERAR}" alt="icone lápis">
                 </p>
                 <p class="item excluir">
@@ -59,9 +59,6 @@ function criarLinhaTabela(obj){
 function cadastrarEventosVisualizar(){
     var elementos = document.getElementsByClassName("visualizar")
     elementos = Array.from(elementos)
-    elementos.forEach( elemento => {
-        console.log(elemento.value);
-    })
     elementos.forEach(elemento => {
         elemento.addEventListener("click",function(event){
             var elementoClicado = event.target
@@ -70,6 +67,23 @@ function cadastrarEventosVisualizar(){
             }
             var id = elementoClicado.dataset.value
             window.location.href = `${URL_VISUALIZAR}?id=${id}`
+        })
+    });
+}
+
+function cadastrarEventosAtualizar(){
+    var elementos = document.getElementsByClassName("editar")
+    elementos = Array.from(elementos)
+    elementos.forEach(elemento => {
+        elemento.addEventListener("click",function(event){
+            var elementoClicado = event.target
+            if (elementoClicado.tagName === 'IMG') {
+                elementoClicado = elementoClicado.parentElement
+            }
+            var id = elementoClicado.dataset.value
+            const objetoEncontrado = listaObjetos.find(objeto => objeto.id == id)
+            salvarLocalStorage(objetoEncontrado)
+            window.location.href = URL_ATUALIZAR
         })
     });
 }
