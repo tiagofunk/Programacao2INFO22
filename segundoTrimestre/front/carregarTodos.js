@@ -23,7 +23,7 @@ function carregarTabela(){
     }
     cadastrarEventosVisualizar()
     cadastrarEventosAtualizar()
-    // cadastrarEventosLixeira()
+    cadastrarEventosExcluir()
 }
 
 function criarCabecalhoTabela(){
@@ -50,7 +50,7 @@ function criarLinhaTabela(obj){
                 <p class="item editar" data-value="${obj.id}">
                     <img class="icone" src="${ICONE_ALTERAR}" alt="icone lápis">
                 </p>
-                <p class="item excluir">
+                <p class="item excluir" data-value="${obj.id}">
                     <img class="icone" src="${ICONE_EXCLUIR}" alt="icone lixeira">
                 </p>
             </div>`;
@@ -88,6 +88,22 @@ function cadastrarEventosAtualizar(){
     });
 }
 
+function cadastrarEventosExcluir(){
+    var elementos = document.getElementsByClassName("excluir")
+    elementos = Array.from(elementos)
+    elementos.forEach(elemento => {
+        elemento.addEventListener("click",function(event){
+            var elementoClicado = event.target
+            if (elementoClicado.tagName === 'IMG') {
+                elementoClicado = elementoClicado.parentElement
+            }
+            var id = elementoClicado.dataset.value
+            console.log(id)
+            realizarExclusao(id)
+        })
+    });
+}
+
 var botaoAdicionar = document.getElementById("botaoAdicionar")
 botaoAdicionar.addEventListener("click",function(){
     window.location.href = URL_ADICIONAR;
@@ -95,49 +111,23 @@ botaoAdicionar.addEventListener("click",function(){
 
 function atualizarTela(id){
     listaObjetos = listaObjetos.filter( p => p.id != id)
-    var tabelaPessoas = document.getElementById("tabelaPessoas")
-    tabelaPessoas.innerHTML = ""
-    carregarTabela()()
+    var tabela = document.getElementById("tabela")
+    tabela.innerHTML = ""
+    carregarTabela()
 }
 
 function realizarExclusao(id){
     var header = {
         method:"DELETE"
     }
-    fetch(URL+id,header)
+    fetch(URL_API+id,header)
     .then(function(response){
-        return response.text()
-    }).then(function(data){
-        atualizarTela(id)
+        if (response.status === 204) {
+            atualizarTela(id)
+        } else {
+            alert("Não foi possível deletar o professor!")
+        }
     }).catch(function(error){
-        alert("Erro ao deletar pessoa")
+        alert("Erro:"+error)
     })
-}
-
-function cadastrarEventosLixeira(){
-    var lixeiras = document.getElementsByClassName("lixeira")
-    for (let i = 0; i < lixeiras.length; i++) {
-        const l = lixeiras[i];
-        l.addEventListener("click",function(event){
-            var id = event.target.parentElement.parentElement.children[0].innerText
-            realizarExclusao(id)
-        })
-    }
-}
-
-function editarURL(url, id, nome, idade){
-    return url+'?id='+id+'&nome='+nome+'&idade='+idade
-}
-
-function cadastrarEventosLapis(){
-    var lapis = document.getElementsByClassName("lapis")
-    for (let i = 0; i < lapis.length; i++) {
-        const l = lapis[i];
-        l.addEventListener("click",function(event){
-            var id = event.target.parentElement.parentElement.children[0].innerText
-            var nome = event.target.parentElement.parentElement.children[1].innerText
-            var idade = event.target.parentElement.parentElement.children[2].innerText
-            window.location.href = editarURL("adicionar.html",id,nome,idade);
-        })
-    }
 }
