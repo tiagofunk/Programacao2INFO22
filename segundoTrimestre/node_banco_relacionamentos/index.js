@@ -87,9 +87,10 @@ app.put("/professor/:id",async function(req,res){
     }
 })
 
-app.put("/materia/",async function(req,res){
+app.put("/materia/:id",async function(req,res){
     const resultado = await materia.materia.update({
         nome:req.body.nome,
+        cargaHoraria:req.body.cargaHoraria,
         professorId:req.body.professorId
     })
     if( resultado == 0){
