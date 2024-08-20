@@ -1,31 +1,36 @@
 const URL_API_MATERIA = 'http://localhost:3000/materia/'
 const URL_API_PROFESSOR = 'http://localhost:3000/professor/'
-const URL_REDICIONAMENTO = './professores.html'
+const URL_REDICIONAMENTO = './materias.html'
 
 const urlParams = new URLSearchParams(window.location.search);
 var acao = urlParams.get("acao")
 
-if( acao == 'atualizar' ){
-    carregarFormulario()
-}
+carregarProfessores( () => {
+    if( acao == 'atualizar' ){
+        carregarFormulario()
+    }
+})
 
 function carregarFormulario(){
     document.getElementById("campoNome").value = localStorage.getItem('nome')
-    document.getElementById('campoCargaHoraria').value = localStorage.getItem('cargaHoraria')
-    document.getElementById('campoSelecionarProfessor').value =localStorage.getItem('regimeTrabalho')
+    document.getElementById('cargaHoraria').value = localStorage.getItem('cargaHoraria')
+    document.getElementById('selecionarProfessor').value = localStorage.getItem('professorId')
 }
 
-fetch( URL_API_PROFESSOR )
-.then(response => response.json())
-.then(result => {
-    var selecionarProfessor = document.getElementById("selecionarProfessor")
-    result.map( r => {
-        selecionarProfessor.innerHTML += `<option value="${r.id}">${r.nome}</option>`
+function carregarProfessores( callback ){
+    fetch( URL_API_PROFESSOR )
+    .then(response => response.json())
+    .then(result => {
+        var selecionarProfessor = document.getElementById("selecionarProfessor")
+        result.map( r => {
+            selecionarProfessor.innerHTML += `<option value="${r.id}">${r.nome}</option>`
+        })
+        if (callback) callback();
     })
-})
-.catch(error => {
-    alert('Erro: ' + error.message);
-})
+    .catch(error => {
+        alert('Erro: ' + error.message);
+    })
+}
 
 function criarCabecalho(data){
     var cabecalho = {
