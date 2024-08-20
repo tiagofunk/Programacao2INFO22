@@ -15,5 +15,9 @@ fetch(URL_API+id).then(function(response) {
 function mostrarMateria( materia ){
     document.getElementById("nome").innerText += `Matéria: ${materia.nome}`
     document.getElementById("cargaHoraria").innerText += `Carga horária: ${materia.cargaHoraria} horas`
-    document.getElementById("professor").innerText += `Professor: ${materia.professor.nome}`
+    if( materia.professor == null ){
+        document.getElementById("professor").innerText += "Professor: Sem professor"
+    }else{
+        document.getElementById("professor").innerText += `Professor: ${materia.professor.nome}`
+    }
 }
