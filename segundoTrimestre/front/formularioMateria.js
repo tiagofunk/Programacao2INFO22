@@ -1,4 +1,5 @@
-const URL_API = 'http://localhost:3000/professor/'
+const URL_API_MATERIA = 'http://localhost:3000/materia/'
+const URL_API_PROFESSOR = 'http://localhost:3000/professor/'
 const URL_REDICIONAMENTO = './professores.html'
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -10,9 +11,21 @@ if( acao == 'atualizar' ){
 
 function carregarFormulario(){
     document.getElementById("campoNome").value = localStorage.getItem('nome')
-    document.getElementById('titulacao').value = localStorage.getItem('titulacao')
-    document.getElementById('regimeTrabalho').value =localStorage.getItem('regimeTrabalho')
+    document.getElementById('campoCargaHoraria').value = localStorage.getItem('cargaHoraria')
+    document.getElementById('campoSelecionarProfessor').value =localStorage.getItem('regimeTrabalho')
 }
+
+fetch( URL_API_PROFESSOR )
+.then(response => response.json())
+.then(result => {
+    var selecionarProfessor = document.getElementById("selecionarProfessor")
+    result.map( r => {
+        selecionarProfessor.innerHTML += `<option value="${r.id}">${r.nome}</option>`
+    })
+})
+.catch(error => {
+    alert('Erro: ' + error.message);
+})
 
 function criarCabecalho(data){
     var cabecalho = {
@@ -29,9 +42,9 @@ function criarCabecalho(data){
 
 function criarURL(id){
     if( acao == 'adicionar' ){
-        return URL_API
+        return URL_API_MATERIA
     }else if(acao == 'atualizar' ){
-        return `${URL_API}${id}`
+        return `${URL_API_MATERIA}${id}`
     }
 }
 
@@ -54,12 +67,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const formData = new FormData(form);
         const data = {
             "nome": formData.get('nome'),
-            "titulacao": formData.get('titulacao'),
-            "regimeTrabalho":formData.get('regimeTrabalho')
+            "cargaHoraria": formData.get('cargaHoraria'),
+            "professorId":formData.get('selecionarProfessor')
         }
 
         var url = criarURL( localStorage.getItem('id') )
         var cabecalho = criarCabecalho(data)
+
+        console.log(data)
         
         fetch( url, cabecalho )
         .then(response => response.json())

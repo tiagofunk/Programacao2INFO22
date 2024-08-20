@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário matéria</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div id="container">
+        <h1 id="titulo">Formulário matéria</h1>
+        <form id="formulario">
+            <p class="separador">
+                <label for="campoNome">Nome:</label>
+                <input id="campoNome" class="elementoFormulario campo" type="text" name="nome">
+            </p>
+
+            <p class="separador">
+                <label for="cargaHoraria">Carga horária:</label>
+                <select id="cargaHoraria" class="elementoFormulario campo" type="text" name="cargaHoraria">
+                    <option value="30">30 aulas</option>
+                    <option value="60">60 aulas</option>
+                    <option value="90">90 aulas</option>
+                    <option value="120">120 aulas</option>
+                </select>
+            </p>
+
+            <p class="separador">
+                <label for="selecionarProfessor">Professor:</label>
+                <select id="selecionarProfessor" class="elementoFormulario campo" name="selecionarProfessor">
+                    
+                </select>
+            </p>
+            
+            <input type="submit" id="botaoAdicionar" class="elementoFormulario" value="Adicionar">
+        </form>
+    </div>
+    
+    <script src="formularioMateria.js"></script>
+</body>
+</html>
