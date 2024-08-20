@@ -92,6 +92,8 @@ app.put("/materia/:id",async function(req,res){
         nome:req.body.nome,
         cargaHoraria:req.body.cargaHoraria,
         professorId:req.body.professorId
+    },{
+        where:{id: req.params.id}
     })
     if( resultado == 0){
         res.status(404).send({})
