@@ -1,27 +1,26 @@
-const numeroPares = 5;
-const baralho = [];
-let pontuacao = 0;
-let cartasViradas = [];
-let paresEncontrados = 0;
-let podeVirar = true;
+const numeroPares = 5
+const baralho = []
+let pontuacao = 0
+let cartasViradas = []
+let paresEncontrados = 0
+let podeVirar = true
 
 for (let i = 1; i <= numeroPares; i++) {
-    baralho.push(i);
-    baralho.push(i);
+    baralho.push(i)
+    baralho.push(i)
 }
 
-baralho.sort(() => Math.random() - 0.5);
+baralho.sort(() => Math.random() - 0.5)
 
 const gameBoard = document.getElementById('gameBoard');
 for (let i = 0; i < baralho.length; i++) {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.dataset.value = baralho[i];
-    card.addEventListener('click', virarCarta);
-    // card.innerText = '?';
+    const card = document.createElement('div')
+    card.classList.add('card')
+    card.dataset.value = baralho[i]
+    card.addEventListener('click', virarCarta)
     card.style.border = '1px solid rgba(0,0,0,0)'
     card.style.backgroundImage = buscarImagemFundo('?')
-    gameBoard.appendChild(card);
+    gameBoard.appendChild(card)
 }
 
 function buscarImagemFundo( id ){
@@ -57,7 +56,6 @@ function virarCarta() {
     if (!podeVirar) return;
     const card = this;
     if (cartasViradas.length < 2 && !cartasViradas.includes(card)) {
-        // card.innerText = card.dataset.value;s
         card.style.backgroundImage = buscarImagemFundo( card.dataset.value )
         card.style.border = '1px solid black'
         cartasViradas.push(card);
@@ -81,7 +79,6 @@ function verificarPar() {
         }
     } else {
         cartasViradas.forEach(card => {
-            // card.innerText = '?';
             card.style.border = '1px solid rgba(0,0,0,0)'
             card.style.backgroundImage = buscarImagemFundo('?')
         });
