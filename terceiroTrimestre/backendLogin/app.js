@@ -1,17 +1,13 @@
 require('dotenv').config()
 const express = require('express')
 const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const session = require('express-session')
-const bodyParser = require('body-parser')
 const cors = require('cors')
 const banco = require("./banco")
 const Usuario = require("./usuario")
 
-
 const app = express()
 app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: false }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false, // Não resave sessões não modificadas
@@ -34,7 +30,7 @@ app.listen(PORTA, () => {
 })
 
 app.options('*', (req, res) => {
-    res.sendStatus(200); // Responde com 200 OK
+    res.sendStatus(200)
 });
 
 function validarCamposRegistro(req, res, next) {
@@ -105,7 +101,7 @@ app.post("/auth/login/", validarCamposLogin, async (req, res) => {
         return res.status(422).send({ msg: "Senha Inválida" })
     }
     
-    req.session.user_id = usuario.id
+    req.session.user_id = usuario.id // Não colocar req.session.id, vai conflitar
     req.session.user = email
     res.status(200).send({ msg: "Autenticação realizada com sucesso!", id: usuario.id})
 })
