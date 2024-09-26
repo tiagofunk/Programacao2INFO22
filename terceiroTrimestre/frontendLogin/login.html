@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
+    <form id="formulario">
+        <h1>Login</h1>
+        <p>Email</p>
+        <input type="text" id="campoEmail" name="email">
+        <p>Senha</p>
+        <input type="password" id="campoSenha" name="password">
+        <p id="mensagemErro"></p>
+        <input type="submit" id="botaoLogin" value="Login">
+    </form>
+    
+    <script src="login.js"></script>
 </body>
 </html>
