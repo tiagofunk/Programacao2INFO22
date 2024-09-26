@@ -2,21 +2,27 @@ require('dotenv').config()
 const express = require('express')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-var cookieParser = require('cookie-parser')
+const session = require('express-session')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const banco = require("./banco")
 const Usuario = require("./usuario")
 
 
 const app = express()
 app.use(express.json())
-app.use(cookieParser())
-
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-    res.setHeader('Access-Control-Allow-Headers', '*')
-    next()
-})
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, // Não resave sessões não modificadas
+    saveUninitialized: true, // Cria uma nova sessão mesmo que não tenha dados
+}))
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', // Indica quem pode se conectar 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true, // Permite cookies e cabeçalhos de autorização
+    allowedHeaders: ['Content-Type', 'Authorization'] // Liste os cabeçalhos que você espera receber
+}));
 
 banco.conexao.sync(function () {
     console.log("Banco de dados conectado.");
@@ -27,9 +33,9 @@ app.listen(PORTA, () => {
     console.log("Servidor rodando na porta " + PORTA);
 })
 
-app.get("/", (req, res) => {
-    res.status(200).json({ msg: "Sucesso" })
-})
+app.options('*', (req, res) => {
+    res.sendStatus(200); // Responde com 200 OK
+});
 
 function validarCamposRegistro(req, res, next) {
     if (!req.body.name) {
@@ -98,37 +104,30 @@ app.post("/auth/login/", validarCamposLogin, async (req, res) => {
     if (!checkPassword) {
         return res.status(422).send({ msg: "Senha Inválida" })
     }
-
-    try {
-        const token = jwt.sign({ id: usuario.id }, process.env.SECRET, { expiresIn: "24h" })
-
-        res.cookie('token',token)
-        res.status(200).json({ msg: "Autenticação realizada com sucesso!", id: usuario.id})
-    } catch (error) {
-        console.log(error);
-        return res.status(500).send({ msg: "Erro no servidor. Tente novamente mais tarde!" })
-    }
+    
+    req.session.user_id = usuario.id
+    req.session.user = email
+    res.status(200).send({ msg: "Autenticação realizada com sucesso!", id: usuario.id})
 })
 
-function checkToken(req, res, next) {
-    const token = req.cookies.token
-    
-    if (token) {
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send({ msg: 'Erro ao tentar fazer logout.' });
+        }
+        res.status(200).send({ msg: 'Logout bem-sucedido!' });
+    });
+});
 
-        jwt.verify(token, process.env.SECRET, function (err, token_data) {
-            if (err) {
-                return res.status(400).send({ msg: "Token inválido" })
-            } else {
-                next()
-            }
-        })
-
+function verifiqueUsuario(req, res, next) {
+    if (req.session.user) {
+        next() // Usuário autenticado, prossiga para a próxima função/middleware
     } else {
-        return res.status(401).send({ msg: "Acesso Negado!" })
+        res.status(403).json({ msg: 'Acesso negado. Você precisa estar logado.' });
     }
 }
 
-app.get("/user/:id", checkToken, async (req, res) => {
+app.get("/user/:id", verifiqueUsuario, async (req, res) => {
     const { id } = req.params
     
     const usuario = await Usuario.Usuario.findByPk(id)
@@ -136,8 +135,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
         return res.status(404).send({ msg: "Usuário não encontrado" })
     }
 
-    var infoToken = jwt.verify(req.cookies.token, process.env.SECRET);
-    if (usuario.id != infoToken.id) {
+    if (usuario.id != req.session.user_id) {
         return res.status(401).send({ msg: "Acesso Negado!" })
     }
 
